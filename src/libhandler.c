@@ -316,12 +316,16 @@ static void fatal(int err, const char* msg, ...) {
     onfatal(err,buf);
   }
   else {
+#ifndef SGX_SDK_LINUX
     fflush(stdout);
     fputs("libhandler: fatal error: ", stderr);
     fputs(buf, stderr);
     fputs("\n", stderr);
     lh_debug_wait_for_enter();
     exit(1);
+#else
+    abort();
+#endif
   }
 }
 
@@ -535,6 +539,7 @@ static struct {
     0, 0, 
 };
 
+#ifndef SGX_SDK_LINUX
 void lh_print_stats(FILE* h) {
   static const char* line = "--------------------------------------------------------------\n";
   #ifdef _STATS
@@ -587,6 +592,7 @@ void lh_check_memory(FILE* h) {
   }
   #endif
 }
+#endif
 
 /*-----------------------------------------------------------------
   Cstack

@@ -336,11 +336,13 @@ typedef void* lh_reallocfun(void* p, size_t size);
 /// Type of `free` functions.
 typedef void  lh_freefun(const void* p);
 
+#ifndef SGX_SDK_LINUX
 /// Print out statistics.
 void lh_print_stats(FILE* out);
 
 /// Check at the end of the program if all continuations were released
 void lh_check_memory(FILE* out);
+#endif
 
 /// Register a function that is called on fatal errors. 
 /// Use NULL for the default handler (outputs the error to stderr and exits)
